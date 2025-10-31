@@ -30,7 +30,7 @@ def tap(x, y):
     if not inside(ball):
         ball.x = -199
         ball.y = -199
-        speed.x = (x + 200) /15
+        speed.x = (x + 200) / 15
         speed.y = (y + 200) / 15
 
 """ Si haces clic más lejos, la bola sale más rápido, si le das click mas arriba, la bola sube mas"""
@@ -40,6 +40,7 @@ def inside(xy):
     """Return True if xy within screen."""
     return -200 < xy.x < 200 and -200 < xy.y < 200
 """ que esten dentro del cuadro"""
+
 
 def draw():
     """Draw ball and targets."""
@@ -67,6 +68,11 @@ def move():
     for target in targets:
         target.x -= 0.5
 
+        # Si el objetivo sale por la izquierda, reaparece a la derecha
+        if target.x < -200:
+            target.x = 200
+            target.y = randrange(-150, 150)
+
     if inside(ball):
         speed.y -= 0.35
         ball.move(speed)
@@ -79,10 +85,6 @@ def move():
             targets.append(target)
 
     draw()
-
-    for target in targets:
-        if not inside(target):
-            return
 
     ontimer(move, 50)
 
